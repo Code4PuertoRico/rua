@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # 3rd party
     'south',
+    'rest_framework',
     # Project
     'agencies',
 )
