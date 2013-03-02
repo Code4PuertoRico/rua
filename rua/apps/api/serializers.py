@@ -6,7 +6,7 @@ from rest_framework import serializers
 from agencies.models import Agency
 
 
-class DocumentSerializer(serializers.HyperlinkedModelSerializer):
+class AgencySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Agency
         fields = ('registration', 'name',)
