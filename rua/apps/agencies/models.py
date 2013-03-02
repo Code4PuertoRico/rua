@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Person(models.Model):
-	full_name = models.CharField(max_length=128, verbose_name=_(u'full name'))
+    full_name = models.CharField(max_length=128, verbose_name=_(u'full name'))
 
     def __unicode__(self):
         return self.full_name
@@ -14,16 +14,16 @@ class Person(models.Model):
 
 
 class Agency(models.Model):
-	# Direct properties
+    # Direct properties
     registration = models.PositiveIntegerField(verbose_name=_(u'registration'), unique=True)
     name = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
-    
+
     # Physical properties
     physical_address = models.TextField(verbose_name=_(u'physical address'), blank=True)
     postal_address = models.TextField(verbose_name=_(u'postal address'), blank=True)
 
-	# Staff
-	director = models.ForeignKey(Person, verbose_name=_(u'director'), null=True, blank=True)
+    # Staff
+    director = models.ForeignKey(Person, verbose_name=_(u'director'), null=True, blank=True)
 
     def __unicode__(self):
         return self.name
