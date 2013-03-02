@@ -2,6 +2,17 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+class Person(models.Model):
+	full_name = models.CharField(max_length=128, verbose_name=_(u'full name'))
+
+    def __unicode__(self):
+        return self.full_name
+
+    class Meta:
+        verbose_name = _(u'person')
+        verbose_name_plural = _(u'people')
+
+
 class Agency(models.Model):
 	# Direct properties
     registration = models.PositiveIntegerField(verbose_name=_(u'registration'), unique=True)
@@ -11,7 +22,8 @@ class Agency(models.Model):
     physical_address = models.TextField(verbose_name=_(u'physical address'), blank=True)
     postal_address = models.TextField(verbose_name=_(u'postal address'), blank=True)
 
-    objects = OmitDisabledManager()
+	# Staff
+	director = models.ForeignKey(Person, verbose_name=_(u'director'), null=True, blank=True)
 
     def __unicode__(self):
         return self.name
