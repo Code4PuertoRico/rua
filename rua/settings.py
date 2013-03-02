@@ -133,7 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     # 3rd party
-    'South',
+    'south',
     # Project
     'agencies',
 )
