@@ -1,23 +1,35 @@
 # Django settings for rua project.
+import os
+import sys
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+ugettext = lambda s: s
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), './'))
 
+sys.path.append(os.path.join(PROJECT_ROOT, 'modules'))
+sys.path.append(os.path.join(PROJECT_ROOT, 'customization_apps'))
+sys.path.append(os.path.join(PROJECT_ROOT, 'apps'))
+sys.path.append(os.path.join(PROJECT_ROOT, 'shared_apps'))
+sys.path.append(os.path.join(PROJECT_ROOT, '3rd_party_apps'))
+
+PROJECT_TITLE = 'RUA (Registro Unico de Agencias)'
+PROJECT_NAME = 'rua'
+
+DEBUG = False
+DEVELOPMENT = False
+TEMPLATE_DEBUG = False
+
+ADMINS = ()
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': os.path.join(PROJECT_ROOT, '%s.sqlite' % PROJECT_NAME),     # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -29,7 +41,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Puerto_Rico'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -61,11 +73,11 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static/')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+STATIC_URL = '/%s-static/' % PROJECT_NAME
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -87,9 +99,10 @@ SECRET_KEY = 'a(99gsd1fm$a+eu%4j523$bw5_&*_l%*2_zuvdaj86sl^l#q*^'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
 )
 
 MIDDLEWARE_CLASSES = (
@@ -120,10 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admin',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -154,3 +164,42 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from settings_local import *
+except ImportError:
+    pass
+
+if DEVELOPMENT:
+    INTERNAL_IPS = ('127.0.0.1',)
+
+    TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )
+    try:
+        import rosetta
+        INSTALLED_APPS += ('rosetta',)
+    except ImportError:
+        pass
+
+    try:
+        import django_extensions
+        INSTALLED_APPS += ('django_extensions',)
+    except ImportError:
+        pass
+
+    try:
+        import debug_toolbar
+        #INSTALLED_APPS +=('debug_toolbar',)
+    except ImportError:
+        pass
+
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.debug',)
+
+    WSGI_AUTO_RELOAD = True
+    if 'debug_toolbar' in INSTALLED_APPS:
+        MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+        DEBUG_TOOLBAR_CONFIG = {
+            'INTERCEPT_REDIRECTS': False,
+        }
