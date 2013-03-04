@@ -6,7 +6,7 @@ RUA (Registro Unico de Agencias) #HackPR
 
 
 To install
-==========
+----------
 git clone git://github.com/rosarior/rua.git
 
 cd rua
@@ -15,22 +15,23 @@ virtualenv venv
 
 source venv/bin/activate
 
-pip install requirements/production.txt
+pip install -r rua/requirements/production.txt
 
 ./manage.py syncdb --migrate
 
 
 Create a settings\_local.py file:
+---------------------------------
+    DEBUG=True
 
-DEBUG=True
-
-DEVELOPMENT=True
+    DEVELOPMENT=True
 
 
 Execute
-~~~~~~~
+---------------------------------
+    ./manage.py runserver
 
-./manage.py runserver
+
 
 
 
@@ -40,5 +41,5 @@ Execute
 
 
 Examples
-~~~~~~~~
+--------
 ![Logo](https://raw.github.com/rosarior/rua/master/rua/docs/_static/single_agency_example.png)
