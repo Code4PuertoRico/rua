@@ -1,4 +1,4 @@
-![Logo](https://github.com/rosarior/rua/raw/master/docs/_static/rua_logo.png)
+![Logo](https://raw.github.com/rosarior/rua/master/rua/docs/_static/rua_logo.png)
 
 RUA
 ===
