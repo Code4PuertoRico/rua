@@ -60,6 +60,7 @@ class AgencyDepartment(models.Model):
     label = models.CharField(max_length=128, verbose_name=_(u'name'))
     start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
     end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
+    main_department = models.BooleanField(default=False, verbose_name=_(u'main department'))
 
     @property
     def employees(self):

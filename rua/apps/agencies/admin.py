@@ -51,7 +51,7 @@ class DepartmentLocationInline(admin.StackedInline):
 
 class AgencyDepartmentAdmin(admin.ModelAdmin):
     model = AgencyDepartment
-    list_display = ('agency', 'label')
+    list_display = ('agency', 'label', 'main_department')
     list_display_links = ('label', )
     inlines = (DepartmentEmployeeInline, DepartmentLocationInline)
 
