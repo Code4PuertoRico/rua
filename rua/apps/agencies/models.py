@@ -18,6 +18,18 @@ class Agency(models.Model):
     def natural_key(self):
         return (self.registration,)
 
+    @property
+    def positions(self):
+        return self.agencyposition_set.all()
+
+    @property
+    def departments(self):
+        return self.agencydepartment_set.all()
+
+    @property
+    def employees(self):
+        return AgencyEmployee.objects.filter(agency_department__agency=self)
+
     class Meta:
         verbose_name = _(u'agency')
         verbose_name_plural = _(u'agencies')
@@ -47,6 +59,14 @@ class AgencyDepartment(models.Model):
     label = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
     start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
     end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
+
+    @property
+    def employees(self):
+        return self.agencyemployee_set.all()
+
+    @property
+    def locations(self):
+        return self.departmentlocation_set.all()
 
     def __unicode__(self):
         return self.label
