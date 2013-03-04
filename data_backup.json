@@ -1,0 +1,159 @@
+[
+{
+    "pk": 1, 
+    "model": "agencies.agency", 
+    "fields": {
+        "name": "Administraci\u00f3n de Asuntos de Energ\u00e9ticos", 
+        "registration": 1433
+    }
+},
+{
+    "pk": 2, 
+    "model": "agencies.agency", 
+    "fields": {
+        "name": "Administraci\u00f3n de Vivienda P\u00fablica", 
+        "registration": 1302
+    }
+},
+{
+    "pk": 3, 
+    "model": "agencies.agency", 
+    "fields": {
+        "name": "Administraci\u00f3n de la Industria y el Deporte H\u00edpico", 
+        "registration": 1401
+    }
+},
+{
+    "pk": 4, 
+    "model": "agencies.agency", 
+    "fields": {
+        "name": "Administraci\u00f3n de los Sistemas de Retiro de los Empleados del Gobierno PR", 
+        "registration": 1404
+    }
+},
+{
+    "pk": 5, 
+    "model": "agencies.agency", 
+    "fields": {
+        "name": "Oficina de Gerencia y Presupuesto", 
+        "registration": 1430
+    }
+},
+{
+    "pk": 2, 
+    "model": "agencies.agencyposition", 
+    "fields": {
+        "agency": 5, 
+        "start_date": null, 
+        "end_date": null, 
+        "label": "Director"
+    }
+},
+{
+    "pk": 4, 
+    "model": "agencies.agencyposition", 
+    "fields": {
+        "agency": 5, 
+        "start_date": null, 
+        "end_date": null, 
+        "label": "Director Asociado"
+    }
+},
+{
+    "pk": 2, 
+    "model": "agencies.agencydepartment", 
+    "fields": {
+        "agency": 5, 
+        "start_date": null, 
+        "end_date": null, 
+        "label": "Administraci\u00f3n"
+    }
+},
+{
+    "pk": 3, 
+    "model": "agencies.agencydepartment", 
+    "fields": {
+        "agency": 5, 
+        "start_date": null, 
+        "end_date": null, 
+        "label": "Tecnolog\u00eda Informatica Gubernamental"
+    }
+},
+{
+    "pk": 4, 
+    "model": "agencies.agencydepartment", 
+    "fields": {
+        "agency": 5, 
+        "start_date": null, 
+        "end_date": null, 
+        "label": "Desarrollo Ag\u00edl"
+    }
+},
+{
+    "pk": 1, 
+    "model": "agencies.departmentemployee", 
+    "fields": {
+        "person": 2, 
+        "agency_department": 2, 
+        "end_date": null, 
+        "start_date": null, 
+        "agency_position": 2
+    }
+},
+{
+    "pk": 2, 
+    "model": "agencies.departmentemployee", 
+    "fields": {
+        "person": 1, 
+        "agency_department": 4, 
+        "end_date": null, 
+        "start_date": null, 
+        "agency_position": 4
+    }
+},
+{
+    "pk": 3, 
+    "model": "agencies.departmentemployee", 
+    "fields": {
+        "person": 3, 
+        "agency_department": 3, 
+        "end_date": null, 
+        "start_date": null, 
+        "agency_position": 4
+    }
+},
+{
+    "pk": 1, 
+    "model": "agencies.departmentlocation", 
+    "fields": {
+        "physical_address": "254 Calle Cruz\r\nViejo San Juan, 00901\r\n\"Esquina Calle Cruz y Tetuan\"", 
+        "end_date": null, 
+        "postal_address": "Oficina de Gerencia y Presupuesto\r\nPO Box 9023228\r\nSan Juan, PR 00902-3228", 
+        "longitude": -66.116112, 
+        "latitude": 18.464284, 
+        "agency_department": 2, 
+        "start_date": null
+    }
+},
+{
+    "pk": 1, 
+    "model": "people.person", 
+    "fields": {
+        "full_name": "Roberto Rosario Gonz\u00e1lez"
+    }
+},
+{
+    "pk": 2, 
+    "model": "people.person", 
+    "fields": {
+        "full_name": "Carlos D. Rivas Qui\u00f1ones"
+    }
+},
+{
+    "pk": 3, 
+    "model": "people.person", 
+    "fields": {
+        "full_name": "Andr\u00e9s Col\u00f3n P\u00e9rez"
+    }
+}
+]
