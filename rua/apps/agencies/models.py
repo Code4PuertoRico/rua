@@ -27,26 +27,26 @@ class Agency(models.Model):
 class AgencyPosition(models.Model):
 	agency = models.ForeignKey(Agency, verbose_name=_(u'agency'))
 	label = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
-	start_date = models.DateTimeField(verbose_name=_(u'start date'), null=True, blank=True)
-	end_date = models.DateTimeField(verbose_name=_(u'start date'), null=True, blank=True)
+	start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
+	end_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
 
 	def __unicode__(self):
 		return self.label
 
 	def natural_key(self):
 		return (self.agency, self.label, )
-
+    
 	class Meta:
-		verbose_name = _(u'agency position')
-		verbose_name_plural = _(u'agencies positions')
+		verbose_name = _(u'position')
+		verbose_name_plural = _(u'positions')
 		#ordering = ['label']
 
 
 class AgencyDepartment(models.Model):
 	agency = models.ForeignKey(Agency, verbose_name=_(u'agency'))
 	label = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
-	start_date = models.DateTimeField(verbose_name=_(u'start date'), null=True, blank=True)
-	end_date = models.DateTimeField(verbose_name=_(u'end date'), null=True, blank=True)
+	start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
+	end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
 
 	def __unicode__(self):
 		return self.label
@@ -55,35 +55,35 @@ class AgencyDepartment(models.Model):
 		return (self.agency, self.label, )
 
 	class Meta:
-		verbose_name = _(u'agency department')
-		verbose_name_plural = _(u'agencies departments')
+		verbose_name = _(u'department')
+		verbose_name_plural = _(u'departments')
 		ordering = ['label']
 
 
 class AgencyEmployee(models.Model):
-	agency_position = models.ForeignKey(AgencyPosition, related_name='agency_position', verbose_name=_(u'agency position'))
-	person = models.ForeignKey(AgencyPosition, related_name='agency_person', verbose_name=_(u'person'))
 	agency_department = models.ForeignKey(AgencyDepartment, related_name='agency_department', verbose_name=_(u'agency department'), null=True, blank=True)
-	start_date = models.DateTimeField(verbose_name=_(u'start date'), null=True, blank=True)
-	end_date = models.DateTimeField(verbose_name=_(u'end date'), null=True, blank=True)
+	agency_position = models.ForeignKey(AgencyPosition, related_name='agency_position', verbose_name=_(u'agency position'))
+	person = models.ForeignKey(Person, related_name='agency_person', verbose_name=_(u'person'))
+	start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
+	end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
 	# TODO: add phone number + extension
 
 	def __unicode__(self):
-		return self.label
+		return unicode(self.person)
 
 	def natural_key(self):
-		return (self.agency, self.label, )
+		return (self.agency_department, self.agency_position, self.person)
 
 	class Meta:
-		verbose_name = _(u'agency employee')
-		verbose_name_plural = _(u'agencies employees')
+		verbose_name = _(u'employee')
+		verbose_name_plural = _(u'employees')
 		ordering = ['agency_position']	
 
 
 class DepartmentLocation(models.Model):
 	agency_department = models.ForeignKey(AgencyDepartment, verbose_name=_(u'agency department'))
-	start_date = models.DateTimeField(verbose_name=_(u'start date'), null=True, blank=True)
-	end_date = models.DateTimeField(verbose_name=_(u'end date'), null=True, blank=True)
+	start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
+	end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
 	# TODO: add phone number + extension
 
 	# TODO: switch to module address scheme
@@ -101,6 +101,6 @@ class DepartmentLocation(models.Model):
 		return (self.agency, self.label, )
 
 	class Meta:
-		verbose_name = _(u'agency department location')
-		verbose_name_plural = _(u'agencies departments locations')
+		verbose_name = _(u'department location')
+		verbose_name_plural = _(u'department locations')
 		ordering = ['start_date']
