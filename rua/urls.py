@@ -6,10 +6,10 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^', include(admin.site.urls)),
-    url(r'^admin/', include(admin.site.urls)),
     (r'^grappelli/', include('grappelli.urls')),
+    url(r'^admin/', include(admin.site.urls)),
     (r'^api/', include('api.urls')),
+    url(r'^', include(admin.site.urls)),
 )
 
 if settings.DEBUG:
