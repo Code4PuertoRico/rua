@@ -28,7 +28,7 @@ class Agency(models.Model):
 
     @property
     def employees(self):
-        return AgencyEmployee.objects.filter(agency_department__agency=self)
+        return DepartmentEmployee.objects.filter(agency_department__agency=self)
 
     class Meta:
         verbose_name = _(u'agency')
@@ -62,7 +62,7 @@ class AgencyDepartment(models.Model):
 
     @property
     def employees(self):
-        return self.agencyemployee_set.all()
+        return DepartmentEmployee.objects.filter(agency_department=self)
 
     @property
     def locations(self):
