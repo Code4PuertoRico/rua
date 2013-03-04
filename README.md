@@ -22,16 +22,23 @@ pip install requirements/production.txt
 
 Create a settings\_local.py file:
 
-    DEBUG=True
-    
-    DEVELOPMENT=True
+DEBUG=True
+
+DEVELOPMENT=True
 
 
 Execute
 ~~~~~~~
-    ./manage.py runserver
+
+./manage.py runserver
+
 
 
 * Add data at 127.0.0.1:8000/admin
 
 * API is at 127.0.0.1:8000/api
+
+
+Examples
+~~~~~~~~
+![Logo](https://raw.github.com/rosarior/rua/master/rua/docs/_static/single_agency_example.png)
