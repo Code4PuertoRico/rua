@@ -95,10 +95,7 @@ class DepartmentLocation(models.Model):
 	longitude = models.FloatField(_(u'longitude'), blank=True, null=True)	
 
 	def __unicode__(self):
-		return unicode(self.label)
-
-	def natural_key(self):
-		return (self.agency, self.label, )
+		return unicode(self.agency_department)
 
 	class Meta:
 		verbose_name = _(u'department location')
