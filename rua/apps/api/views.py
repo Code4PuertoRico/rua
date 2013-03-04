@@ -30,11 +30,12 @@ def version_0(request, format=None):
         'agencies': reverse('agency-list', request=request),
     })
 
-class AgencyList(generics.ListCreateAPIView):
+
+class AgencyList(generics.ListAPIView):
     model = Agency
     serializer_class = AgencySerializer
 
 
-class AgencyDetail(generics.RetrieveUpdateDestroyAPIView):
+class AgencyDetail(generics.RetrieveAPIView):
     model = Agency
     serializer_class = AgencySerializer
