@@ -26,10 +26,12 @@ Create a settings\_local.py file:
     
     DEVELOPMENT=True
 
+
 Execute
 ~~~~~~~
-./manage.py runserver
+    ./manage.py runserver
 
-add data at 127.0.0.1:8000/admin
 
-API is at 127.0.0.1:8000/api
+* Add data at 127.0.0.1:8000/admin
+
+* API is at 127.0.0.1:8000/api
