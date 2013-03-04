@@ -125,6 +125,8 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     # Django
+	'grappelli.dashboard',
+    'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -175,6 +177,8 @@ LOGGING = {
         },
     }
 }
+
+GRAPPELLI_INDEX_DASHBOARD = 'rua.dashboard.CustomIndexDashboard'
 
 try:
     from settings_local import *
