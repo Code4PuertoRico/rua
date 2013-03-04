@@ -4,27 +4,40 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 from agencies.models import (Agency, AgencyPosition, AgencyDepartment,
-    DepartmentLocation)
+    DepartmentLocation, DepartmentEmployee)
+from people.models import Person
 
 
-class DepartmentLocationSerializer(serializers.HyperlinkedModelSerializer):
+class PersonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = DepartmentLocation
-        fields = ('start_date', 'end_date', 'physical_address', 'postal_address', 'latitude', 'longitude')
+        model = Person
 
 
 class AgencyPositionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AgencyPosition
-        fields = ('label', 'start_date', 'end_date')
+
+
+class DepartmentEmployeeSerializer(serializers.HyperlinkedModelSerializer):
+    agency_position = AgencyPositionSerializer()
+    person = PersonSerializer()
+
+    class Meta:
+        model = DepartmentEmployee
+
+
+class DepartmentLocationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DepartmentLocation
 
 
 class AgencyDepartmentSerializer(serializers.HyperlinkedModelSerializer):
     locations = DepartmentLocationSerializer()
+    employees = DepartmentEmployeeSerializer()
 
     class Meta:
         model = AgencyDepartment
-        fields = ('label', 'start_date', 'end_date', 'locations')
+        fields = ('url', 'label', 'start_date', 'end_date', 'locations', 'employees')
 
 
 class AgencySerializer(serializers.HyperlinkedModelSerializer):
@@ -34,5 +47,3 @@ class AgencySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Agency
         fields = ('url', 'registration', 'name', 'positions', 'departments')
-
-
