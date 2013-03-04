@@ -31,22 +31,22 @@ class InitialListFilter(SimpleListFilter):
 
 class AgencyPositionInline(admin.StackedInline):
     model = AgencyPosition
-    max_num = 2
+    extra = 1
 
     
 class AgencyDepartmentInline(admin.StackedInline):
     model = AgencyDepartment
-    max_num = 2
+    extra = 1
 
 
 class DepartmentEmployeeInline(admin.StackedInline):
     model = DepartmentEmployee
-    max_num = 2
+    extra = 1
 
 
 class DepartmentLocationInline(admin.StackedInline):
     model = DepartmentLocation
-    max_num = 2
+    extra = 1
 
 
 class AgencyDepartmentAdmin(admin.ModelAdmin):
