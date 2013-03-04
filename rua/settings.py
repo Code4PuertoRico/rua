@@ -136,6 +136,7 @@ INSTALLED_APPS = (
     'south',
     'rest_framework',
     # Project
+    'people',
     'agencies',
 )
 
