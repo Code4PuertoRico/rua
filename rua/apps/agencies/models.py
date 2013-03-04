@@ -80,7 +80,7 @@ class AgencyDepartment(models.Model):
         ordering = ['label']
 
 
-class AgencyEmployee(models.Model):
+class DepartmentEmployee(models.Model):
     agency_department = models.ForeignKey(AgencyDepartment, related_name='agency_department', verbose_name=_(u'agency department'), null=True, blank=True)
     agency_position = models.ForeignKey(AgencyPosition, related_name='agency_position', verbose_name=_(u'agency position'))
     person = models.ForeignKey(Person, related_name='agency_person', verbose_name=_(u'person'))

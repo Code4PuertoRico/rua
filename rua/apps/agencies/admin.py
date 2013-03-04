@@ -5,7 +5,7 @@ from django.contrib.admin import SimpleListFilter
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (Agency, AgencyPosition, AgencyDepartment,
-    AgencyEmployee, DepartmentLocation)
+    DepartmentEmployee, DepartmentLocation)
 
 
 class InitialListFilter(SimpleListFilter):
@@ -39,8 +39,8 @@ class AgencyDepartmentInline(admin.StackedInline):
     max_num = 2
 
 
-class AgencyAgencyEmployeeInline(admin.StackedInline):
-    model = AgencyEmployee
+class DepartmentEmployeeInline(admin.StackedInline):
+    model = DepartmentEmployee
     max_num = 2
 
 
@@ -53,7 +53,7 @@ class AgencyDepartmentAdmin(admin.ModelAdmin):
     model = AgencyDepartment
     list_display = ('agency', 'label')
     list_display_links = ('label', )
-    inlines = (AgencyAgencyEmployeeInline, DepartmentLocationInline)
+    inlines = (DepartmentEmployeeInline, DepartmentLocationInline)
 
 
 class AgencyAdmin(admin.ModelAdmin):
