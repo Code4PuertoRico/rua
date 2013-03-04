@@ -38,7 +38,7 @@ class Agency(models.Model):
 
 class AgencyPosition(models.Model):
     agency = models.ForeignKey(Agency, verbose_name=_(u'agency'))
-    label = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
+    label = models.CharField(max_length=128, verbose_name=_(u'name'))
     start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
     end_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
 
@@ -51,12 +51,13 @@ class AgencyPosition(models.Model):
     class Meta:
         verbose_name = _(u'position')
         verbose_name_plural = _(u'positions')
-        #ordering = ['label']
+        ordering = ['label']
+        unique_together = ['agency', 'label']
 
 
 class AgencyDepartment(models.Model):
     agency = models.ForeignKey(Agency, verbose_name=_(u'agency'))
-    label = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
+    label = models.CharField(max_length=128, verbose_name=_(u'name'))
     start_date = models.DateField(verbose_name=_(u'start date'), null=True, blank=True)
     end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
 
@@ -78,6 +79,7 @@ class AgencyDepartment(models.Model):
         verbose_name = _(u'department')
         verbose_name_plural = _(u'departments')
         ordering = ['label']
+        unique_together = ['agency', 'label']
 
 
 class DepartmentEmployee(models.Model):
