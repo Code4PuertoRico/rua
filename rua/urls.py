@@ -6,10 +6,17 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^grappelli/', include('grappelli.urls')),
+    url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    (r'^api/', include('api.urls')),
-    url(r'^', include(admin.site.urls)),
+    url(r'^api/', include('api.urls')),
+    url(r'^permissions/', include('permissions.urls')),
+    url(r'^setup/', include('project_setup.urls')),
+    url(r'^tools/', include('project_tools.urls')),
+    url(r'^settings/', include('smart_settings.urls')),
+    url(r'^user_management/', include('user_management.urls')),
+    url(r'^acls/', include('acls.urls')),
+    url(r'^common/', include('common.urls')),
+    url(r'^', include('main.urls')),
 )
 
 if settings.DEBUG:

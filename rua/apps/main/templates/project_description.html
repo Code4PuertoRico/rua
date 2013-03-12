@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load main_icons_tags %}
+{% get_main_icons %}
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/override.css" type="text/css" media="screen" />
+
+<p class="tc">
+    {% trans "a central database of government agencies and all their related metadata." %}
+</p>
+<p class="tc">
+    {{ icon_home_page.display_small }}<a href="http://rua.pr.gov">http://rua.pr.gov</a>
+</p>
+<p class="tc">
+    {{ icon_documentation.display_small }}<a href="http://readthedocs.org/docs/rua/en/latest/">http://rua.readthedocs.org/</a>
+</p>
+<p class="tc">
+    {{ icon_source_code.display_small }}<a href="http://www.github.com/rosarior/rua/">http://www.github.com/rosarior/rua/</a>
+</p>
+<p class="tc">
+    {{ icon_issue_tracker.display_small }}<a href="https://github.com/rosarior/rua/issues">https://github.com/rosarior/rua/issues</a>
+</p>
+<p class="tc">
+    {% trans "Released under the GPL V3 License" %}
+</p>
+<div class="tc">
+    <img src="{{ STATIC_URL }}images/21-government_icon.png"/>
+</div>
+<div class="tc">
+    <img src="{{ STATIC_URL }}images/gplv3-127x51.png"/>
+    <img src="{{ STATIC_URL }}images/djangopowered126x54.gif"/>
+</div>

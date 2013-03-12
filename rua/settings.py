@@ -9,7 +9,7 @@ SITE_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 sys.path.append(os.path.join(PROJECT_ROOT, 'apps'))
 
-PROJECT_TITLE = 'RUA (Registro Unico de Agencias)'
+PROJECT_TITLE = 'RUAg (Registro Unico de Agencias)'
 PROJECT_NAME = 'rua'
 
 DEBUG = False
@@ -88,7 +88,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -110,6 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'rua.urls'
@@ -125,7 +126,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     # Django
-	'grappelli.dashboard',
+    'grappelli.dashboard',
     'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,9 +138,25 @@ INSTALLED_APPS = (
     # 3rd party
     'south',
     'rest_framework',
+    'compressor',
+    'pagination',
+    # Mayan
+    'permissions',
+    'navigation',
+    'project_setup',
+    'project_tools',
+    'smart_settings',
+    'web_theme',
+    'acls',
+    'common',
+    'icons',
+    'app_registry',
+    'user_management',
     # Project
     'people',
     'agencies',
+    'api',
+    'main',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -147,6 +164,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.static',
     'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -179,6 +197,12 @@ LOGGING = {
 }
 
 GRAPPELLI_INDEX_DASHBOARD = 'rua.dashboard.CustomIndexDashboard'
+COMPRESS_PARSER = 'compressor.parser.HtmlParser'
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.CSSMinFilter']
+
+COMPRESS_ENABLED=False
+
+WEB_THEME_THEME = 'warehouse'
 
 try:
     from settings_local import *
