@@ -202,7 +202,7 @@ COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'com
 
 COMPRESS_ENABLED=False
 
-WEB_THEME_THEME = 'warehouse'
+#WEB_THEME_THEME = 'warehouse'
 
 try:
     from settings_local import *

@@ -8,7 +8,7 @@ from people.models import Person
 class Agency(models.Model):
     registration = models.PositiveIntegerField(verbose_name=_(u'registration'), unique=True)
     name = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
-
+    # TODO: add SAIR number field
     # TODO: add website
     # TODO: add organic law link/text
 
@@ -47,7 +47,7 @@ class AgencyPosition(models.Model):
 
     def natural_key(self):
         return (self.agency, self.label, )
-    
+
     class Meta:
         verbose_name = _(u'position')
         verbose_name_plural = _(u'positions')
@@ -100,7 +100,7 @@ class DepartmentEmployee(models.Model):
     class Meta:
         verbose_name = _(u'employee')
         verbose_name_plural = _(u'employees')
-        ordering = ['agency_position']    
+        ordering = ['agency_position']
 
 
 class DepartmentLocation(models.Model):
@@ -115,7 +115,7 @@ class DepartmentLocation(models.Model):
 
     # TODO: Switch to GeoDjango PointField field type
     latitude = models.FloatField(_(u'latitude'), blank=True, null=True)
-    longitude = models.FloatField(_(u'longitude'), blank=True, null=True)    
+    longitude = models.FloatField(_(u'longitude'), blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.agency_department)
