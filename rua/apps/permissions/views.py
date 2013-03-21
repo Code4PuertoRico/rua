@@ -27,27 +27,6 @@ from .permissions import (PERMISSION_ROLE_VIEW, PERMISSION_ROLE_EDIT,
     PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE)
 
 
-#def role_list(request):
-#    Permission.objects.check_permissions(request.user, [PERMISSION_ROLE_VIEW])#
-#
-#	return ListView(request.
-#	
-#	        queryset=Poll.objects.order_by('-pub_date')[:5],
-#            context_object_name='latest_poll_list',
-#            #template_name='polls/index.html'))
-            
-            
-#    return object_list(
-#        request,
-#        queryset=Role.objects.all(),
-#        template_name='generic_list.html',
-#        extra_context={
-#            'title': _(u'roles'),
-#            'hide_link': True,
-#        },
-#    )
-
-
 def role_permissions(request, role_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE])
 
@@ -92,20 +71,24 @@ def role_permissions(request, role_id):
 
 def role_edit(request, role_id):
     Permission.objects.check_permissions(request.user, [PERMISSION_ROLE_EDIT])
+    role = get_object_or_404(Role, pk=role_id)
 
-    return update_object(request, template_name='generic_form.html',
-        form_class=RoleForm, object_id=role_id, extra_context={
-            'object_name': _(u'role')
-        }
-    )
+    if request.method == 'POST':
+        form = RoleForm(instance=role, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _(u'Role "%s" updated successfully.') % role)
+            return HttpResponseRedirect(reverse('role_list'))
+    else:
+        form = RoleForm(instance=role)
 
-
-def role_create(request):
-    Permission.objects.check_permissions(request.user, [PERMISSION_ROLE_CREATE])
-
-    return create_object(request, model=Role,
-        template_name='generic_form.html',
-        post_save_redirect=reverse('role_list'))
+    return render_to_response('generic_form.html', {
+        'title': _(u'edit role: %s') % role,
+        'form': form,
+        'object': role,
+        'object_name': _(u'role'),
+    },
+    context_instance=RequestContext(request))
 
 
 def role_delete(request, role_id):
@@ -124,6 +107,51 @@ def role_delete(request, role_id):
             'object_name': _(u'role'),
             'form_icon': icon_role_delete,
         })
+
+
+def role_delete(request, role_id=None, role_id_list=None):
+    Permission.objects.check_permissions(request.user, [PERMISSION_ROLE_DELETE])
+    post_action_redirect = None
+
+    if role_id:
+        roles = [get_object_or_404(Role, pk=role_id)]
+        post_action_redirect = reverse('role_list')
+    elif role_id_list:
+        roles = [get_object_or_404(Role, pk=role_id) for role_id in role_id_list.split(',')]
+    else:
+        messages.error(request, _(u'Must provide at least one role.'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', '/')))
+    next = request.POST.get('next', request.GET.get('next', post_action_redirect if post_action_redirect else request.META.get('HTTP_REFERER', '/')))
+
+    if request.method == 'POST':
+        for role in roles:
+            try:
+                role.delete()
+                messages.success(request, _(u'Role "%s" deleted successfully.') % role)
+            except Exception, e:
+                messages.error(request, _(u'Error deleting role "%(role)s": %(error)s') % {
+                    'role': role, 'error': e
+                })
+
+        return HttpResponseRedirect(next)
+
+    context = {
+        'object_name': _(u'role'),
+        'delete_view': True,
+        'previous': previous,
+        'next': next,
+        'form_icon': icon_role_delete,
+    }
+    if len(roles) == 1:
+        context['object'] = roles[0]
+        context['title'] = _(u'Are you sure you wish to delete the role: %s?') % ', '.join([unicode(d) for d in roles])
+    elif len(roles) > 1:
+        context['title'] = _(u'Are you sure you wish to delete the roles: %s?') % ', '.join([unicode(d) for d in roles])
+
+    return render_to_response('generic_confirm.html', context,
+        context_instance=RequestContext(request))
 
 
 def permission_grant(request):
