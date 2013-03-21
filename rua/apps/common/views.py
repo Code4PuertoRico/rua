@@ -267,6 +267,23 @@ from permissions.models import Permission
 class MayanCreateView(CreateView):
     template_name = 'generic_form.html'
 
+    @classonlymethod
+    def as_view(cls, **initkwargs):
+        cls.global_permissions = initkwargs.pop('global_permission', [])
+        cls.title = initkwargs.pop('title', None)
+        cls.form_class = initkwargs.pop('form_class', None)
+        cls.model = initkwargs.pop('model', None)
+        view = super(MayanCreateView, cls).as_view(**initkwargs)
+        return view
+
+    def get_context_data(self, **kwargs):
+        if self.global_permissions:
+            Permission.objects.check_permissions(self.request.user, self.global_permissions)
+
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
 
 class MayanDeleteView(CreateView):
     template_name = 'generic_confirm.html'
@@ -286,7 +303,6 @@ class MayanListView(ListView):
         return view
 
     def get_context_data(self, **kwargs):
-        print self.request
         if self.global_permissions:
             Permission.objects.check_permissions(self.request.user, self.global_permissions)
 
@@ -300,3 +316,21 @@ class MayanListView(ListView):
 
 class MayanUpdateView(CreateView):
     template_name = 'generic_form.html'
+
+    @classonlymethod
+    def as_view(cls, **initkwargs):
+        cls.global_permissions = initkwargs.pop('global_permission', [])
+        cls.title = initkwargs.pop('title', None)
+        #cls.form_class = initkwargs.pop('form_class', None)
+        #cls.model = initkwargs.pop('model', None)
+        view = super(MayanUpdateView, cls).as_view(**initkwargs)
+        return view
+
+    def get_context_data(self, **kwargs):
+        if self.global_permissions:
+            Permission.objects.check_permissions(self.request.user, self.global_permissions)
+
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['title'] = self.title
+        context['object'] = self.object
+        return context
