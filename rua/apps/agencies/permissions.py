@@ -10,3 +10,8 @@ PERMISSION_AGENCY_CREATE = Permission.objects.register(namespace, 'agency_create
 PERMISSION_AGENCY_EDIT = Permission.objects.register(namespace, 'agency_edit', _(u'Edit existing agency'))
 PERMISSION_AGENCY_VIEW = Permission.objects.register(namespace, 'agency_view', _(u'View existing agency'))
 PERMISSION_AGENCY_DELETE = Permission.objects.register(namespace, 'agency_delete', _(u'Delete existing agency'))
+
+PERMISSION_POSITION_CREATE = Permission.objects.register(namespace, 'position_create', _(u'Create new position'))
+PERMISSION_POSITION_EDIT = Permission.objects.register(namespace, 'position_edit', _(u'Edit existing position'))
+PERMISSION_POSITION_VIEW = Permission.objects.register(namespace, 'position_view', _(u'View existing position'))
+PERMISSION_POSITION_DELETE = Permission.objects.register(namespace, 'position_delete', _(u'Delete existing position'))

@@ -19,4 +19,9 @@ urlpatterns = patterns('agencies.views',
     url(r'^(?P<agency_pk>\d+)/edit/$', 'agency_edit', (), 'agency_edit'),
     url(r'^(?P<agency_pk>\d+)/delete/$', 'agency_delete', (), 'agency_delete'),
     url(r'^multiple/delete/$', 'agency_multiple_delete', (), 'agency_multiple_delete'),
+
+    url(r'^(?P<agency_pk>\d+)/position/list/$', 'position_list', (), 'position_list'),
+    url(r'^(?P<agency_pk>\d+)/position/add/$', 'position_add', (), 'position_add'),
+    url(r'^position/(?P<position_pk>\d+)/edit/$', 'position_edit', (), 'position_edit'),
+    url(r'^position/(?P<position_pk>\d+)/delete/$', 'position_delete', (), 'position_delete'),
 )
