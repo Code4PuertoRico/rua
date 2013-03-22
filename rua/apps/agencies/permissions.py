@@ -15,3 +15,8 @@ PERMISSION_POSITION_CREATE = Permission.objects.register(namespace, 'position_cr
 PERMISSION_POSITION_EDIT = Permission.objects.register(namespace, 'position_edit', _(u'Edit existing position'))
 PERMISSION_POSITION_VIEW = Permission.objects.register(namespace, 'position_view', _(u'View existing position'))
 PERMISSION_POSITION_DELETE = Permission.objects.register(namespace, 'position_delete', _(u'Delete existing position'))
+
+PERMISSION_DEPARTMENT_CREATE = Permission.objects.register(namespace, 'department_create', _(u'Create new department'))
+PERMISSION_DEPARTMENT_EDIT = Permission.objects.register(namespace, 'department_edit', _(u'Edit existing department'))
+PERMISSION_DEPARTMENT_VIEW = Permission.objects.register(namespace, 'department_view', _(u'View existing department'))
+PERMISSION_DEPARTMENT_DELETE = Permission.objects.register(namespace, 'department_delete', _(u'Delete existing department'))

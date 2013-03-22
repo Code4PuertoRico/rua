@@ -12,11 +12,11 @@ from common.utils import generate_choices_w_labels, encapsulate
 from common.widgets import two_state_template
 from common.views import assign_remove
 
-from .models import Agency, AgencyPosition
+from .models import Agency, AgencyPosition, AgencyDepartment
 from .permissions import (PERMISSION_AGENCY_CREATE, PERMISSION_AGENCY_EDIT,
     PERMISSION_AGENCY_VIEW, PERMISSION_AGENCY_DELETE)
-from .forms import AgencyForm, AgencyPositionForm
-from .icons import icon_agency_delete, icon_position_delete
+from .forms import AgencyForm, AgencyPositionForm, AgencyDepartmentForm
+from .icons import icon_agency_delete, icon_position_delete, icon_department_delete
 
 
 def agency_add(request):
@@ -115,6 +115,8 @@ def agency_multiple_delete(request):
         request, agency_pk_list=request.GET.get('id_list', [])
     )
 
+
+# Positions
 
 def position_list(request, agency_pk):
     #Permission.objects.check_permissions(request.user, [PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE])
@@ -246,4 +248,139 @@ def position_delete(request, position_pk=None, position_pk_list=None):
 def position_multiple_delete(request):
     return position_delete(
         request, position_pk_list=request.GET.get('id_list', [])
+    )
+
+
+# Departments
+
+def department_list(request, agency_pk):
+    #Permission.objects.check_permissions(request.user, [PERMISSION_PERMISSION_GRANT, PERMISSION_PERMISSION_REVOKE])
+
+    agency = get_object_or_404(Agency, pk=agency_pk)
+
+    return render_to_response('generic_list.html', {
+        'title': _(u'departments for agency: %s') % agency,
+        'object_list': agency.departments,
+        'agency': agency,
+        'navigation_object_list': [
+            {
+                'object': 'agency',
+            }
+        ],
+        'hide_link': True,
+    }, context_instance=RequestContext(request))
+
+
+def department_add(request, agency_pk):
+    #Permission.objects.check_permissions(request.user, [PERMISSION_DEPARTMENT_CREATE])
+    # TODO: add agency department add ACL
+
+    agency = get_object_or_404(Agency, pk=agency_pk)
+
+    if request.method == 'POST':
+        form = AgencyDepartmentForm(request.POST)
+        if form.is_valid():
+            department = form.save(commit=False)
+            department.agency = agency
+            department.save()
+            messages.success(request, _(u'Department "%s" created successfully.') % department)
+            return HttpResponseRedirect(reverse('department_list', args=[agency.pk]))
+    else:
+        form = AgencyDepartmentForm()
+
+    return render_to_response('generic_form.html', {
+        'title': _(u'create new department for agency: %s') % agency,
+        'form': form,
+        'agency': agency,
+        'navigation_object_list': [
+            {
+                'object': 'agency',
+            }
+        ],
+    },
+    context_instance=RequestContext(request))
+
+
+def department_edit(request, department_pk):
+    #Permission.objects.check_permissions(request.user, [PERMISSION_GROUP_EDIT])
+    department = get_object_or_404(AgencyDepartment, pk=department_pk)
+
+    if request.method == 'POST':
+        form = AgencyDepartmentForm(instance=department, data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _(u'Department "%s" updated successfully.') % department)
+            return HttpResponseRedirect(reverse('department_list', args=[department.agency.pk]))
+    else:
+        form = AgencyDepartmentForm(instance=department)
+
+    return render_to_response('generic_form.html', {
+        'title': _(u'edit department: %s') % department,
+        'form': form,
+        'object': department,
+        'agency': department.agency,
+        'navigation_object_list': [
+            {
+                'object': 'agency',
+            }
+        ],
+        'object_name': _(u'department'),
+    },
+    context_instance=RequestContext(request))
+
+
+def department_delete(request, department_pk=None, department_pk_list=None):
+    #Permission.objects.check_permissions(request.user, [PERMISSION_DEPARTMENT_DELETE])
+    post_action_redirect = None
+
+    if department_pk:
+        departments = [get_object_or_404(AgencyDepartment, pk=department_pk)]
+        post_action_redirect = reverse('department_list', args=[departments[0].agency.pk])
+    elif department_pk_list:
+        departments = [get_object_or_404(AgencyDepartment, pk=department_pk) for department_id in department_pk_list.split(',')]
+    else:
+        messages.error(request, _(u'Must provide at least one department.'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+    previous = request.POST.get('previous', request.GET.get('previous', request.META.get('HTTP_REFERER', reverse('home'))))
+    next = request.POST.get('next', request.GET.get('next', post_action_redirect if post_action_redirect else request.META.get('HTTP_REFERER', reverse('home'))))
+
+    if request.method == 'POST':
+        for department in departments:
+            try:
+                department.delete()
+                messages.success(request, _(u'Department "%s" deleted successfully.') % department)
+            except Exception, e:
+                messages.error(request, _(u'Error deleting department "%(department)s": %(error)s') % {
+                    'department': department, 'error': e
+                })
+
+        return HttpResponseRedirect(next)
+
+    context = {
+        'object_name': _(u'department'),
+        'agency': departments[0].agency,
+        'delete_view': True,
+        'previous': previous,
+        'next': next,
+        'form_icon': icon_department_delete,
+    }
+    if len(departments) == 1:
+        context['object'] = departments[0]
+        context['navigation_object_list'] = [
+            {
+                'object': 'agency',
+            }
+        ]
+        context['title'] = _(u'Are you sure you wish to delete the department: %s?') % ', '.join([unicode(d) for d in departments])
+    elif len(departments) > 1:
+        context['title'] = _(u'Are you sure you wish to delete the departments: %s?') % ', '.join([unicode(d) for d in departments])
+
+    return render_to_response('generic_confirm.html', context,
+        context_instance=RequestContext(request))
+
+
+def department_multiple_delete(request):
+    return department_delete(
+        request, department_pk_list=request.GET.get('id_list', [])
     )
