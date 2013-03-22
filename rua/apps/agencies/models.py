@@ -6,11 +6,11 @@ from people.models import Person
 #TODO: Add agency logo model
 
 class Agency(models.Model):
-    registration = models.PositiveIntegerField(verbose_name=_(u'registration'), unique=True)
     name = models.CharField(max_length=128, verbose_name=_(u'name'), unique=True)
-    # TODO: add SAIR number field
-    # TODO: add website
-    # TODO: add organic law link/text
+    registration = models.PositiveIntegerField(verbose_name=_(u'registration number'), unique=True, null=True, blank=True)
+    sair = models.PositiveIntegerField(verbose_name=_(u'SAIR number'), unique=True, null=True, blank=True)
+    website = models.URLField(verbose_name=_(u'website'), blank=True)
+    organic_law = models.TextField(verbose_name=_(u'organic law text'), blank=True)
 
     def __unicode__(self):
         return self.name
@@ -109,7 +109,7 @@ class DepartmentLocation(models.Model):
     end_date = models.DateField(verbose_name=_(u'end date'), null=True, blank=True)
     # TODO: add phone number + extension
 
-    # TODO: switch to module address scheme
+    # TODO: switch to modular address scheme
     physical_address = models.TextField(verbose_name=_(u'physical address'), blank=True)
     postal_address = models.TextField(verbose_name=_(u'postal address'), blank=True)
 

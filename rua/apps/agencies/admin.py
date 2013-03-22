@@ -33,7 +33,7 @@ class AgencyPositionInline(admin.StackedInline):
     model = AgencyPosition
     extra = 1
 
-    
+
 class AgencyDepartmentInline(admin.StackedInline):
     model = AgencyDepartment
     extra = 1
@@ -58,8 +58,8 @@ class AgencyDepartmentAdmin(admin.ModelAdmin):
 
 class AgencyAdmin(admin.ModelAdmin):
     model = Agency
-    list_display = ('registration', 'name')
-    list_display_links = ('registration', 'name')
+    list_display = ('name', 'registration', 'sair')
+    list_display_links = ('name', 'registration', 'sair')
     list_filter = (InitialListFilter, )
     inlines = (AgencyPositionInline, AgencyDepartmentInline)
 
